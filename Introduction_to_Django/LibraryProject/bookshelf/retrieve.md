@@ -3,9 +3,9 @@
 ```python
 from bookshelf.models import Book
 
-# Retrieve all books
-books = Book.objects.all()
-print(list(books))
+# Retrieve a single book using get()
+book = Book.objects.get(title="1984")
+print(book)
 
 # Output:
-# [<Book: 1984 by George Orwell (1949)>]
+# <Book: 1984 by George Orwell (1949)>

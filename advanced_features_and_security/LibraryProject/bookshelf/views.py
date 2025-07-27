@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from django.contrib.auth.decorators import permission_required
 from .models import Book
-from .forms import BookSearchForm  # You'll need to create this form
+from .forms import BookSearchForm  
+from .forms import ExampleForm
+
 
 """
 Permissions & Groups Setup Guide:

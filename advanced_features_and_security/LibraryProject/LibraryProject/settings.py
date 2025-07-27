@@ -131,7 +131,9 @@ SECURE_BROWSER_XSS_FILTER = True # Enable browser XSS filtering
 
 X_FRAME_OPTIONS = 'DENY' # Prevent clickjacking by disallowing framing
 
-SECURE_CONTENT_TYPE_NOSNIFF = True 
+SECURE_SSL_REDIRECT = True  # Redirect HTTP to HTTPS
+
+SECURE_CONTENT_TYPE_NOSNIFF = True  # Prevent browsers from MIME-sniffing the response
 
 CSRF_COOKIE_SECURE = True # Ensure CSRF cookie sent only over HTTPS
 
@@ -149,3 +151,4 @@ CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", 'ajax.googleapis.com')  
 CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
 CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
+

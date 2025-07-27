@@ -152,3 +152,4 @@ CSP_SCRIPT_SRC = ("'self'", 'ajax.googleapis.com')
 CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
 CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') # Tell Django to trust the X-Forwarded-Proto header from a proxy like Nginx

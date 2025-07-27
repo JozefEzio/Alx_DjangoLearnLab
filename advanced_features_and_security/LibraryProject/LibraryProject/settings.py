@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-nsvz9cf^kcw!*0t0@oo+^r^fxwp(7k3+a5n&jv$gla)&7^1nz!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False # Disable debug in production to avoid information leaks
 
 ALLOWED_HOSTS = []
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'bookshelf',
     'relationship_app',
+    'csp',
 ]
 
 MIDDLEWARE = [
@@ -49,6 +50,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -122,4 +124,28 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
+
+SECURE_BROWSER_XSS_FILTER = True # Enable browser XSS filtering
+
+X_FRAME_OPTIONS = 'DENY' # Prevent clickjacking by disallowing framing
+
+SECURE_CONTENT_TYPE_NOSNIFF = True 
+
+CSRF_COOKIE_SECURE = True # Ensure CSRF cookie sent only over HTTPS
+
+SESSION_COOKIE_SECURE = True # Ensure session cookie sent only over HTTPS
+
+SECURE_HSTS_SECONDS = 31536000   # 1 year HTTP Strict Transport Security
+
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+
+SECURE_HSTS_PRELOAD = True
+
+# CSP settings enforce which sources of content are allowed to mitigate XSS risks
+
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'ajax.googleapis.com')  
+CSP_STYLE_SRC = ("'self'", 'fonts.googleapis.com')
+CSP_FONT_SRC = ("'self'", 'fonts.gstatic.com')

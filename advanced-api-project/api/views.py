@@ -4,7 +4,7 @@ from rest_framework import generics
 from .serializers import BookSerializer
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters import rest_framework as filters
-from rest_framework.filters import SearchFilter, OrderingFilter
+from rest_framework.filters import SearchFilter
 
 # Create your views here.
 
@@ -19,7 +19,7 @@ class BookListView(generics.ListAPIView):
     serializer_class = BookSerializer
     
     permission_classes = [IsAuthenticatedOrReadOnly]
-    filter_backends = [filters.DjangoFilterBackend, SearchFilter, OrderingFilter] # integrate all filters
+    filter_backends = [filters.DjangoFilterBackend, SearchFilter, filters.OrderingFilter] # integrate all filters
     
     # Allow filtering by these fields (exact matches)
     filterset_fields = ['title', 'author', 'publication_year']
@@ -27,9 +27,7 @@ class BookListView(generics.ListAPIView):
     # Enable search on these fields (partial, case-insensitive)
     search_fields = ['title', 'author']
     
-    # Enable ordering on these fields, and set a default ordering
-    ordering_fields = ['title', 'publication_year']
-    ordering = ['title']  # default ordering
+    
     
 class BookDetailView(generics.RetrieveAPIView):
     """

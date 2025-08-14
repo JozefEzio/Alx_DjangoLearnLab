@@ -1,14 +1,17 @@
-{% extends "base.html" %}
+{% extends "blog/base.html" %}
 
 {% block title %}Blog Posts{% endblock %}
 
 {% block content %}
 <h1>All Blog Posts</h1>
+{% if user.is_authenticated %}
+<p><a href="{% url 'post-create' %}" class="btn">+ New Post</a></p>
+{% endif %}
 <ul>
     {% for post in posts %}
-        <li>{{ post.title }} - {{ post.author.username }} ({{ post.published_date }})</li>
+    <li>{{ post.title }} - {{ post.author.username }} ({{ post.published_date }})</li>
     {% empty %}
-        <li>No posts available.</li>
+    <li>No posts available.</li>
     {% endfor %}
 </ul>
 {% endblock %}

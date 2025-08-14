@@ -8,5 +8,9 @@ urlpatterns = [
     path('logout/', views.logout_user, name='logout'), # Logout page
     path('register/', views.register_user, name='register'), # Register page
     path('profile/', views.profile, name='profile'),  # Profile page
-    path('posts/', views.posts, name='posts'),  # Posts page
+    path('posts/', views.PostListView.as_view(), name='posts'),  # Posts page
+    path('posts/new/', views.PostCreateView.as_view(), name='post-create'),
+    path('posts/<int:pk>/', views.PostDetailView.as_view(), name='post-detail'),
+    path('posts/<int:pk>/edit/', views.PostUpdateView.as_view(), name='post-update'),
+    path('posts/<int:pk>/delete/', views.PostDeleteView.as_view(), name='post-delete'),
 ]

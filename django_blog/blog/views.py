@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -98,20 +98,6 @@ class PostDetailView(DetailView):
         context["form"] = CommentForm()
         return context
 
-    def post(self, request, *args, **kwargs):
-        # Handle comment submission
-        self.object = self.get_object()
-        form = CommentForm(request.POST)
-
-        if form.is_valid():
-            new_comment = form.save(commit=False)
-            new_comment.post = self.object
-            new_comment.author = request.user
-            new_comment.save()
-            return redirect("post-detail", pk=self.object.pk)
-
-        # If form invalid, re-show page with errors
-        return self.render_to_response(self.get_context_data(form=form))
 
 
 class PostCreateView(LoginRequiredMixin, CreateView):
@@ -145,6 +131,29 @@ class PostDeleteView(LoginRequiredMixin, DeleteView):
         messages.success(self.request, "Post deleted successfully.")
         return super().delete(request, *args, **kwargs)
 
+
+class CommentCreateView(LoginRequiredMixin, CreateView):
+    model = Comment
+    form_class = CommentForm
+    template_name = "blog/comment_form.html"
+
+    def form_valid(self, form):
+        post_id = self.kwargs.get("pk")  # 'pk' of the Post
+        post = get_object_or_404(Post, pk=post_id)
+        form.instance.post = post
+        form.instance.author = self.request.user
+        return super().form_valid(form)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['post'] = get_object_or_404(Post, pk=self.kwargs.get("pk"))  # pass post to template
+        return context
+    
+    def get_success_url(self):
+        comment = cast(Comment, self.get_object())
+        return reverse("post-detail", kwargs={"pk": comment.post.pk})
+    
+    
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
     form_class = CommentForm

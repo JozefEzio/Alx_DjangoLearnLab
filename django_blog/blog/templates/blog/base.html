@@ -1,12 +1,14 @@
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Django Blog{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+
 <body>
     <header>
         <nav>
@@ -17,6 +19,10 @@
                 <li><a href="{% url 'register' %}">Register</a></li>
             </ul>
         </nav>
+        <form method="get" action="{% url 'search-posts' %}">
+            <input type="text" name="q" placeholder="Search...">
+            <button type="submit">Search</button>
+        </form>
     </header>
 
     <div class="content">
@@ -31,4 +37,5 @@
 
     <script src="{% static 'js/scripts.js' %}"></script>
 </body>
+
 </html>
